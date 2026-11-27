@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مسار الحماية والتكفل</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2f4;--ink:#16252e;--card:#fff;--ac:#0f6b6b;--act:#fff;--mut:#51626c;--ln:#cfd9de;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a20;--ink:#e6eef2;--card:#17262e;--ac:#5cc4c0;--act:#08201f;--mut:#9fb2bc;--ln:#2b3d47}}
+:root[data-theme="dark"]{--bg:#0f1a20;--ink:#e6eef2;--card:#17262e;--ac:#5cc4c0;--act:#08201f;--mut:#9fb2bc;--ln:#2b3d47}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.05rem/1.75 Tajawal,system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:1px solid var(--ln);padding:10px 16px}
+.hr{max-width:560px;margin:auto;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.br{font-weight:800;font-size:1rem;line-height:1.3}
+.lg button{border:1px solid var(--ln);background:var(--card);color:var(--ink);font:inherit;font-size:.9rem;padding:4px 10px;border-radius:8px;cursor:pointer}
+.lg button.on{border-color:var(--ac);font-weight:700}
+.ex{background:#b3261e;color:#fff;border:0;border-radius:10px;font:800 1rem Tajawal,system-ui;padding:10px 14px;cursor:pointer;white-space:nowrap}
+main{max-width:560px;margin:auto;padding:20px 16px 48px}
+h1{font-size:1.5rem;line-height:1.4;margin:.2em 0 .6em}
+h2{font-size:1.15rem;color:var(--ac);margin:1.5em 0 .45em}
+.badge{display:inline-block;background:var(--card);border:1px solid var(--ln);border-radius:999px;padding:4px 12px;font-size:.88rem;color:var(--mut);margin:2px 4px 8px 0}
+.o{display:block;width:100%;text-align:start;padding:15px 16px;margin:9px 0;border:2px solid var(--ln);border-radius:14px;background:var(--card);color:var(--ink);font:inherit;cursor:pointer}
+.o.on{border-color:var(--ac);font-weight:700}
+.p{display:block;width:100%;padding:15px;margin-top:14px;border:0;border-radius:14px;background:var(--ac);color:var(--act);font:800 1.05rem Tajawal,system-ui;cursor:pointer;text-align:center;text-decoration:none}
+.p.sec{background:var(--card);color:var(--ink);border:2px solid var(--ln)}
+.p[disabled]{opacity:.4;cursor:default}
+.dg{background:#b3261e;color:#fff}
+.bk{background:none;border:0;color:var(--mut);font:inherit;margin-top:14px;cursor:pointer;text-decoration:underline}
+.c{background:var(--card);border:1px solid var(--ln);border-inline-start:5px solid var(--ac);border-radius:12px;padding:12px 16px;margin:10px 0}
+.c p{margin:.3em 0}
+ul{padding-inline-start:1.2em;margin:.4em 0}
+li{margin:.45em 0}
+.m{color:var(--mut);font-size:.92rem}
+.toast{margin-top:10px;font-size:.92rem;font-weight:700;color:var(--ac);min-height:1.4em}
+a{color:var(--ac)}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+@media print{header,.lg,.p,.bk,.toast{display:none!important}body{background:#fff;color:#000}.c{break-inside:avoid}}
+</style></head><body>
+<header><div class="hr"><div class="br" id="br"></div><button class="ex" id="ex"></button></div></header>
+<main id="m"></main>
+<script>
+var U={
+br:['مسار الحماية والتكفل','مسار الحماية والتكفل','Parcours de protection et de prise en charge'],
+ex:['خروج سريع','خروج سريع','Quitter vite'],
+lg:['اختاري اللغة','اختاري اللغة','Choisissez la langue'],
+pv:['لا يحفظ هذا الموقع أي معطيات عنك.','هاد الموقع ما كيحفظ حتى معطى عليك.','Ce site ne conserve aucune donnée sur vous.'],
+q0:['هل يوجد خطر مباشر الآن؟','واش كاين خطر دابا؟','Y a-t-il un danger immédiat ?'],
+y:['نعم','إيه','Oui'],n:['لا','لا','Non'],
+em:['اتصلي الآن','تصلي دابا','Appelez maintenant'],
+emt:['اذهبي إلى مكان آمن. إذا كانت هناك إصابة فتوجهي إلى المستعجلات.','سيري لبلاصة آمنة. إلا كاينة إصابة سيري للمستعجلات.','Rejoignez un lieu sûr. En cas de blessure, allez aux urgences.'],
+p1:['الشرطة · 19','البوليس · 19','Police · 19'],p2:['الدرك الملكي · 177','الجندرمة · 177','Gendarmerie royale · 177'],
+go:['متابعة المسار','كملي المسار','Continuer le parcours'],
+q1:['لمن تطلبين المساعدة؟','لشكون كتطلبي المساعدة؟','Pour qui demandez-vous de l’aide ?'],
+w:[['لي','ليا','Pour moi'],['لامرأة أخرى','لوحدة أخرى','Pour une autre femme']],
+q2:['ماذا حدث؟ يمكنك اختيار أكثر من جواب.','شنو وقع؟ تقدري تختاري بزاف.','Que s’est-il passé ? Plusieurs choix possibles.'],
+ty:[
+ ['جسدي أو جنسي أو تحرش','جسدي ولا جنسي ولا تحرش','Physique, sexuel ou harcèlement'],
+ ['نفسي أو لفظي أو إكراه','نفسي ولا لفظي ولا إكراه','Psychologique, verbal ou contrainte'],
+ ['اقتصادي: نفقة أو أموال أو بيت الزوجية','اقتصادي: نفقة ولا فلوس ولا بيت الزوجية','Économique : pension, biens, domicile conjugal'],
+ ['رقمي: هاتف أو إنترنت','رقمي: تيليفون ولا أنترنت','Numérique : téléphone ou internet'],
+ ['لا أعرف / أريد التوجيه','ما عرفتش / بغيت التوجيه','Je ne sais pas / Besoin d’orientation']
+],
+q3:['من هو المعتدي؟','شكون المعتدي؟','Qui est l’agresseur ?'],
+ag:[
+ ['زوج أو خطيب أو مطلق','راجل ولا خطيب ولا مطلق','Époux, fiancé ou ex-conjoint'],
+ ['فرد من العائلة أو له ولاية/سلطة','واحد من العائلة ولا عندو سلطة','Membre de la famille ou personne ayant autorité'],
+ ['زميل في العمل أو مسؤول مهني','زميل فالخدمة ولا مسؤول','Collègue ou supérieur hiérarchique'],
+ ['شخص غريب أو مجهول','واحد غريب ولا مجهول','Personne inconnue']
+],
+nx:['التالي','التالي','Suivant'],bk:['رجوع','رجوع','Retour'],
+rs:['خريطة طريقك القانونية والعملية','الخريطة ديالك القانونية والعملية','Votre parcours juridique et pratique'],
+oth:['القرار قرارها. ساعديها دون ضغط.','القرار ديالها. عاونيها بلا ما تضغطي عليها.','La décision lui appartient. Aidez sans pression.'],
+b1:['1. التصرف الفوري','1. شنو ديري دابا','1. Action immédiate'],
+b2:['2. أين أتوجه حسب حالتك؟','2. فين تمشي على حساب حالتك؟','2. Où aller selon votre situation ?'],
+sf:['3. أمان رقمي وعملي','3. أمان رقمي وعملي','3. Sécurité numérique et pratique'],
+sft:['إذا كنتِ تستعملين هاتفا أو حاسوبا مشتركا، أغلقي الصفحة بعد القراءة واستعملي زر "خروج سريع" عند الحاجة. لا تقومي بحظر حساب المعتدي قبل حفظ الأدلة الرقمية.','إلا كنتي كتستعملي تيليفون ولا بيسي مشترك، سدي الصفحة من بعد القراءة واستعملي زر "خروج سريع" ملي تحتاجي. ما تبلوكيش حساب المعتدي قبل ما تحفظي الأدلة الرقمية.','Si vous utilisez un appareil partagé, fermez la page après lecture et utilisez « Quitter vite ». Ne bloquez pas le compte de l’agresseur avant de sauvegarder les preuves numériques.'],
+lw:['4. ما يقوله القانون (حسب النوع والمعتدي)','4. شنو كيقول القانون (على حساب النوع والمعتدي)','4. Ce que dit la loi (selon les faits et l’auteur)'],
+b3:['5. الوثائق والأدلة المطلوبة لحالتك','5. الوثائق والأدلة اللي خاص تجمعي','5. Documents et preuves à rassembler'],
+b4:['6. تدابير الحماية وماذا بعد','6. تدابير الحماية وشنو غادي يوقع من بعد','6. Mesures de protection et suites'],
+cp:['نسخ ملخص الخريطة','نسخ ملخص الخريطة','Copier le résumé'],
+cpd:['تم نسخ ملخص الخريطة بنجاح.','تنسخ ملخص الخريطة مزيان.','Résumé copié.'],
+pr:['طباعة أو حفظ نسخة PDF','طباعة ولا حفظ نسخة PDF','Imprimer ou enregistrer en PDF'],
+sr:['المصادر القانونية والرسمية','المصادر القانونية والرسمية','Sources juridiques et officielles'],
+ds:['للتوجيه والتوعية فقط، وليس استشارة قانونية. آخر مراجعة للمحتوى: 26 نونبر 2026.','للتوجيه والتوعية بركا، ماشي استشارة قانونية. آخر مراجعة: 26 نونبر 2026.','À titre d’information, ce n’est pas un avis juridique. Dernière révision : 26 novembre 2026.']
+};
+
+var B1_BY_TYPE={
+ 0:['ابتعدي فوراً إلى مكان آمن. إذا تعرضتِ لاعتداء جسدي أو جنسي، توجهي مباشرة إلى مستعجلات المستشفى العمومي لإجراء الفحص الطبي والحصول على شهادة طبية أولية قبل زوال الآثار.','بعدي دابا لبلاصة آمنة. إلا تعرضتي لاعتداء جسدي ولا جنسي، سيري نيشان لمستعجلات السبيطار العمومي باش يديرو لك الفحص الطبي ويعطيوك شهادة طبية أولية قبل ما يمشيو الآثار.','Mettez-vous immédiatement à l’abri. En cas d’agression physique ou sexuelle, rendez-vous aux urgences de l’hôpital public pour un examen médical et un certificat médical initial avant la disparition des traces.'],
+ 1:['ابتعدي عن مصدر التهديد أو الإكراه وأخبري شخصا تثقين به. دوّني تواريخ وأوقات التهديدات أو الإهانات بدقة.','بعدي على مصدر التهديد ولا الإكراه وعلمي شي واحد كتثقي فيه. قيدي التواريخ والأوقات ديال التهديد ولا السب بدقة.','Éloignez-vous de la source de menace ou de contrainte et prévenez une personne de confiance. Notez précisément les dates et heures des faits.'],
+ 2:['لا توقّعي على أي تنازل تحت الضغط. إذا طُردتِ من بيت الزوجية، اطلبي فوراً تدخل الشرطة القضائية أو الدرك الملكي لمعاينة حالة الطرد.','ما تسني على حتى تنازل تحت الضغط. إلا تطردتي من بيت الزوجية، طلبي دابا تدخل البوليس ولا الجندرمة باش يعاينو حالة الطرد.','Ne signez aucune renonciation sous la contrainte. En cas d’expulsion du domicile conjugal, demandez immédiatement l’intervention de la police ou de la gendarmerie pour constater l’expulsion.'],
+ 3:['لا تمسحي الرسائل ولا الصور ولا التعليقات، ولا تحظري الحساب فوراً حتى توثّقيها بلقطات شاشة (Screenshots) واضحة تُظهر الرابط والتاريخ والرقم أو اسم الحساب.','ما تمسحيش الميساجات ولا التصاور ولا التعليقات، وما تبلوكيش الحساب دابا حتى تصوريهم (Screenshots) ويبان فيهم الليان والتاريخ والنمرة ولا سمية الحساب.','N’effacez ni messages, ni images, ni commentaires, et ne bloquez pas immédiatement le compte avant d’avoir pris des captures d’écran montrant le lien, la date et le numéro ou identifiant.'],
+ 4:['ابتعدي إلى مكان آمن وأخبري شخصا تثقين به. يمكنك التوجه مباشرة إلى أقرب خلية للتكفل لمساعدتك في تكييف وضعيتك وتحديد المسطرة المناسبة.','بعدي لبلاصة آمنة وعلمي شي واحد كتثقي فيه. تقدري تمشي نيشان لأقرب خلية للتكفل باش يعاونوك تحددي وضعيتك والمسطرة المناسبة.','Mettez-vous à l’abri et prévenez une personne de confiance. Vous pouvez vous adresser directement à la cellule de prise en charge la plus proche pour vous orienter.']
+};
+
+var WHERE_BY_TYPE={
+ 0:['خلية التكفل بالنساء بالمستشفى العمومي (للعلاج والشهادة الطبية) + خلية التكفل بالمحكمة الابتدائية (نائب وكيل الملك) أو مصالح الأمن الوطني / الدرك الملكي (المادة 10 من القانون 103.13).','خلية التكفل بالنساء فالسبيطار العمومي (للعلاج والشهادة الطبية) + خلية التكفل فالمحكمة الابتدائية (نائب وكيل الملك) ولا البوليس / الجندرمة (المادة 10 من القانون 103.13).','Cellule de prise en charge à l’hôpital public (soins et certificat médical) + cellule du tribunal de première instance (substitut du procureur) ou Police / Gendarmerie (art. 10, loi 103.13).'],
+ 1:['خلية التكفل بالمحكمة الابتدائية (تضم نائب وكيل الملك ومساعداً اجتماعياً) لتقديم شكاية وطلب تدابير الحماية، أو مصالح الشرطة / الدرك الملكي.','خلية التكفل فالمحكمة الابتدائية (فيها نائب وكيل الملك ومساعد اجتماعي) باش تقدمي شكاية وتطلبي تدابير الحماية، ولا مصالح البوليس / الجندرمة.','Cellule de prise en charge du tribunal de première instance (substitut du procureur et assistant social) pour déposer plainte et demander des mesures de protection, ou Police / Gendarmerie.'],
+ 2:['خلية التكفل بالمحكمة الابتدائية (للشكاية الجنائية بطرد الزوجة أو تبديد الأموال) + قسم قضاء الأسرة بالمحكمة الابتدائية (للمطالبة بالنفقة أو الرجوع لبيت الزوجية).','خلية التكفل فالمحكمة الابتدائية (للشكاية بطرد الزوجة ولا تبديد الفلوس) + قسم قضاء الأسرة فالمحكمة الابتدائية (باش تطلبي النفقة ولا الرجوع لبيت الزوجية).','Cellule de prise en charge du tribunal de première instance (plainte pénale pour expulsion ou dissipation de biens) + section de la justice de la famille (pension alimentaire ou réintégration du domicile conjugal).'],
+ 3:['خلية التكفل بالمحكمة الابتدائية (النيابة العامة المختصة بالجرائم الرقمية) أو فرقة محاربة الجريمة المعلوماتية بالأمن الوطني / الدرك الملكي، مع الإدلاء بالأدلة الرقمية المحفوظة.','خلية التكفل فالمحكمة الابتدائية (النيابة العامة المختصة فالجرائم الرقمية) ولا فرقة محاربة الجريمة المعلوماتية فالبوليس / الجندرمة، مع تقديم الأدلة الرقمية المحفوظة.','Cellule de prise en charge du tribunal de première instance (parquet compétent en cybercriminalité) ou brigade de lutte contre la cybercriminalité de la Police / Gendarmerie, avec les preuves numériques conservées.'],
+ 4:['خلايا التكفل موجودة في كل محكمة ابتدائية ومحكمة استئناف، وفي المستشفيات ومصالح العدل والصحة والشباب والمرأة والأمن الوطني والدرك الملكي (المادة 10). ابدئي بأقرب خلية في المحكمة الابتدائية.','خلايا التكفل كاينين فكل محكمة ابتدائية ومحكمة استئناف، وفالسبيطارات ومصالح العدل والصحة والشباب والمرأة والبوليس والجندرمة (المادة 10). بداي بأقرب خلية فالمحكمة الابتدائية.','Des cellules de prise en charge existent dans chaque tribunal de première instance et cour d’appel, les hôpitaux, les services de la justice, de la santé, de la jeunesse et de la femme, la Police et la Gendarmerie (art. 10). Commencez par celle du tribunal de première instance.']
+};
+
+function getLawCards(ty, ag){
+ var out=[];
+ var has0=ty.indexOf(0)>-1, has1=ty.indexOf(1)>-1, has2=ty.indexOf(2)>-1, has3=ty.indexOf(3)>-1, has4=ty.indexOf(4)>-1;
+
+ if(has0){
+  if(ag===0){
+   out.push([
+    'العنف الجسدي من الزوج أو الخطيب أو المطلق (ظرف تشديد - الفصل 404): تُشدَّد عقوبة الضرب والجرح لتصبح من سنة إلى 3 سنوات حبساً وغرامة من 2,000 إلى 10,000 درهم إذا لم يتجاوز العجز 20 يوماً، وتصل من سنتين إلى 5 سنوات حبساً إذا تجاوز العجز 20 يوماً.',
+    'العنف الجسدي من الراجل ولا الخطيب ولا المطلق (ظرف تشديد - الفصل 404): العقوبة كتغلاض وكتولي من عام لـ 3 سنين حبس وغرامة من 2,000 لـ 10,000 درهم إلا كان العجز قل من 20 يوم، ومن عامين لـ 5 سنين حبس إلا فات العجز 20 يوم.',
+    'Violence physique par l’époux, fiancé ou ex-conjoint (circonstance aggravante - art. 404) : 1 à 3 ans de prison et 2 000 à 10 000 DH d’amende si l’incapacité ≤ 20 jours, et 2 à 5 ans si l’incapacité > 20 jours.'
+   ]);
+  }else if(ag===1){
+   out.push([
+    'العنف الجسدي أو الجنسي من أحد أفراد العائلة أو الأصول أو من له سلطة/ولاية: تُشدَّد عقوبة الإيذاء (الفصل 404: من سنة إلى 5 سنوات حسب مدة العجز). وفي التحرش الجنسي من أحد الأصول أو المحارم أو من له ولاية أو سلطة، تصل العقوبة إلى السجن من 3 إلى 5 سنوات وغرامة من 5,000 إلى 50,000 درهم (الفصل 503-1-2).',
+    'العنف الجسدي ولا الجنسي من واحد من العائلة ولا الأصول ولا عندو سلطة: كتغلاض عقوبة الإيذاء (الفصل 404: من عام لـ 5 سنين على حساب مدة العجز). وفالتحرش الجنسي من الأصول ولا المحارم ولا اللي عندو سلطة، العقوبة كتوصل من 3 لـ 5 سنين حبس وغرامة من 5,000 لـ 50,000 درهم (الفصل 503-1-2).',
+    'Violence physique ou sexuelle par un membre de la famille, ascendant ou personne ayant autorité : peine aggravée (art. 404 : 1 à 5 ans selon l’incapacité). En cas de harcèlement sexuel par un ascendant, un mahram ou une personne ayant autorité : 3 à 5 ans de prison et 5 000 à 50 000 DH d’amende (art. 503-1-2).'
+   ]);
+  }else if(ag===2){
+   out.push([
+    'التحرش الجنسي في محيط العمل (الفصل 503-1-1 و503-1-2): العقوبة الأساسية للتحرش هي من شهر إلى 6 أشهر حبساً وغرامة من 2,000 إلى 10,000 درهم، وتُضاعَف العقوبة إذا كان المعتدي زميلاً في العمل أو من المكلفين بحفظ النظام، وترتفع إلى 3 إلى 5 سنوات حبساً إذا كانت له سلطة فعلية على الضحية.',
+    'التحرش الجنسي فالخدمة (الفصل 503-1-1 و503-1-2): العقوبة الأساسية هي من شهر لـ 6 أشهر حبس وغرامة من 2,000 لـ 10,000 درهم، وكتضاعف إلا كان المعتدي زميل فالخدمة، وكتوصل من 3 لـ 5 سنين حبس إلا كانت عندو سلطة فعلية عليها.',
+    'Harcèlement sexuel au travail (art. 503-1-1 et 503-1-2) : peine de base de 1 à 6 mois de prison et 2 000 à 10 000 DH d’amende, doublée si l’auteur est un collègue de travail, et portée à 3 à 5 ans s’il exerce une autorité sur la victime.'
+   ]);
+  }else{
+   out.push([
+    'التحرش أو الاعتداء من شخص غريب (الفصل 503-1-1 و404): التحرش الجنسي في الفضاء العام يعاقب عليه بالحبس من شهر إلى 6 أشهر وغرامة من 2,000 إلى 10,000 درهم (أو بإحدى العقوبتين)، وتُشدَّد عقوبة الإيذاء ضد المرأة بسبب جنسها (الفصل 404).',
+    'التحرش ولا الاعتداء من واحد غريب (الفصل 503-1-1 و404): التحرش الجنسي فالزنقة ولا الفضاء العام عقوبتو الحبس من شهر لـ 6 أشهر وغرامة من 2,000 لـ 10,000 درهم، وكتغلاض عقوبة الإيذاء ضد المرأة بسبب جنسها (الفصل 404).',
+    'Harcèlement ou agression par un inconnu (art. 503-1-1 et 404) : le harcèlement sexuel dans l’espace public est puni de 1 à 6 mois de prison et 2 000 à 10 000 DH d’amende, et les violences contre une femme en raison de son sexe sont aggravées (art. 404).'
+   ]);
+  }
+ }
+
+ if(has1){
+  if(ag===1){
+   out.push([
+    'الإكراه على الزواج والعنف النفسي داخل العائلة (الفصل 503-2-1): يعاقب بالحبس من 6 أشهر إلى سنة وغرامة من 10,000 إلى 30,000 درهم كل من أكره شخصاً على الزواج باستعمال العنف أو التهديد، وتُضاعَف العقوبة إذا ارتكب الفعل ضد قاصر أو امرأة في وضعية إعاقة أو من أحد الأصول.',
+    'الإكراه على الزواج والعنف النفسي فالعائلة (الفصل 503-2-1): الحبس من 6 أشهر لعام وغرامة من 10,000 لـ 30,000 درهم لأي واحد كيجبر شي حد على الزواج بالعنف ولا التهديد، وكتضاعف العقوبة إلا كانت الضحية قاصر ولا فوضعية إعاقة.',
+    'Contrainte au mariage et violence psychologique familiale (art. 503-2-1) : 6 mois à 1 an de prison et 10 000 à 30 000 DH d’amende pour contrainte au mariage par violence ou menace ; peine doublée si la victime est mineure ou en situation de handicap.'
+   ]);
+  }else{
+   out.push([
+    'السبّ والقذف والتهديد ضد المرأة (الفصلان 444-1 و444-2): السب الموجه للمرأة بسبب جنسها يعاقب عليه بغرامة من 12,000 إلى 60,000 درهم، والقذف الموجه لها بسبب جنسها يعاقب عليه بغرامة من 12,000 إلى 120,000 درهم.',
+    'السبّ والقذف والتهديد ضد المرأة (الفصلان 444-1 و444-2): سبّ المرأة بسبب جنسها عقوبتو غرامة من 12,000 لـ 60,000 درهم، والقذف بسبب جنسها عقوبتو غرامة من 12,000 لـ 120,000 درهم.',
+    'Injure, diffamation et menaces sexistes (art. 444-1 et 444-2) : l’injure commise contre une femme en raison de son sexe est punie d’une amende de 12 000 à 60 000 DH, et la diffamation d’une amende de 12 000 à 120 000 DH.'
+   ]);
+  }
+ }
+
+ if(has2){
+  if(ag===0){
+   out.push([
+    'العنف الاقتصادي من الزوج (الفصلان 480-1 و526-1): طرد الزوجة من بيت الزوجية أو الامتناع عن إرجاعها إليه يعاقب عليه بالحبس من شهر إلى 3 أشهر وغرامة من 2,000 إلى 5,000 درهم (480-1). وتبديد الأموال أو تفويتها بسوء نية للإضرار بالزوج الآخر يعاقب عليه بالحبس من شهر إلى 6 أشهر وغرامة من 2,000 إلى 10,000 درهم (526-1).',
+    'العنف الاقتصادي من الراجل (الفصلان 480-1 و526-1): طرد الزوجة من بيت الزوجية ولا الامتناع على إرجاعها عقوبتو الحبس من شهر لـ 3 أشهر وغرامة من 2,000 لـ 5,000 درهم (480-1). وتبديد الفلوس ولا الأملاك بسوء نية عقوبتو الحبس من شهر لـ 6 أشهر وغرامة من 2,000 لـ 10,000 درهم (526-1).',
+    'Violence économique conjugale (art. 480-1 et 526-1) : l’expulsion du domicile conjugal ou le refus de réintégration est puni de 1 à 3 mois de prison et 2 000 à 5 000 DH d’amende (480-1). La dissipation de biens de mauvaise foi entre époux est punie de 1 à 6 mois et 2 000 à 10 000 DH (526-1).'
+   ]);
+  }else{
+   out.push([
+    'الحرمان من الحقوق المالية أو الإكراه الاقتصادي (المادة 1 من القانون 103.13): يُعدّ عنفاً اقتصادياً كل فعل أو امتناع ذو طبيعة اقتصادية أو مالية يضر أو من شأنه الإضرار بالحقوق الاجتماعية أو الاقتصادية للمرأة، ويمكن المطالبة باسترجاع الحقوق أمام القضاء المختص.',
+    'الحرمان من الحقوق المالية ولا الإكراه الاقتصادي (المادة 1 من القانون 103.13): كيتعتبر عنف اقتصادي أي فعل ولا امتناع مالي كيضر بالحقوق الاجتماعية ولا الاقتصادية للمرأة، وتقدري تطالبي باسترجاع حقوقك قدام القضاء المختص.',
+    'Privation de droits financiers ou contrainte économique (art. 1, loi 103.13) : constitue une violence économique tout acte ou abstention portant atteinte aux droits sociaux ou économiques de la femme, ouvrant droit à recours devant la juridiction compétente.'
+   ]);
+  }
+ }
+
+ if(has3){
+  var extra=(ag===0||ag===1)?' وتُشدَّد العقوبة إلى الحبس من سنة إلى 5 سنوات وغرامة من 5,000 إلى 50,000 درهم إذا كان الفاعل زوجاً أو خطيباً أو مطلقاً أو أحد الأصول أو له ولاية/سلطة (الفصل 447-3).':'';
+  var extraD=(ag===0||ag===1)?' وكتغلاض العقوبة حتى لـ عام لـ 5 سنين حبس وغرامة من 5,000 لـ 50,000 درهم إلا كان الفاعل راجل ولا خطيب ولا مطلق ولا من الأصول ولا عندو سلطة (الفصل 447-3).':'';
+  var extraF=(ag===0||ag===1)?' La peine est portée de 1 à 5 ans de prison et 5 000 à 50 000 DH d’amende si l’auteur est le conjoint, fiancé, ex-conjoint, ascendant ou personne ayant autorité (art. 447-3).':'';
+  out.push([
+   'العنف الرقمي والمس بالحياة الخاصة (الفصول 447-1، 447-2، 447-3 و503-1-1): التقاط أو تسجيل أو بث أقوال أو صور خاصة دون موافقة يعاقب عليه بالحبس من 6 أشهر إلى 3 سنوات وغرامة من 2,000 إلى 20,000 درهم (447-1). ونشر تركيبات (مونتاج) أو ادعاءات كاذبة للمس بالحياة الخاصة أو التشهير يعاقب عليه بالحبس من سنة إلى 3 سنوات وغرامة من 2,000 إلى 20,000 درهم (447-2). كما يُعاقب على التحرش عبر الرسائل أو الصور أو التسجيلات (503-1-1).' + extra,
+   'العنف الرقمي والمس بالحياة الخاصة (الفصول 447-1، 447-2، 447-3 و503-1-1): تصوير ولا تسجيل ولا نشر كلام ولا تصاور خاصة بلا موافقة عقوبتو الحبس من 6 أشهر لـ 3 سنين وغرامة من 2,000 لـ 20,000 درهم (447-1). ونشر مونتاج ولا كذوب للتشهير عقوبتو الحبس من عام لـ 3 سنين وغرامة من 2,000 لـ 20,000 درهم (447-2)، والتحرش بالرسائل والتصاور كيدخل فالفصل 503-1-1.' + extraD,
+   'Violence numérique et atteinte à la vie privée (art. 447-1, 447-2, 447-3 et 503-1-1) : capter, enregistrer ou diffuser sans consentement des paroles ou images privées est puni de 6 mois à 3 ans de prison et 2 000 à 20 000 DH d’amende (447-1). La diffusion de montages ou fausses allégations est punie de 1 à 3 ans et 2 000 à 20 000 DH (447-2). Le harcèlement par messages ou images relève de l’art. 503-1-1.' + extraF
+  ]);
+ }
+
+ if(has4||!out.length){
+  out.push([
+   'التعريف القانوني الشامل (المادة 1 من القانون 103.13): يُقصد بالعنف ضد المرأة كل فعل مادي أو معنوي أو امتناع أساسه التمييز بسبب الجنس، يترتب عليه ضرر جسدي أو نفسي أو جنسي أو اقتصادي للمرأة. خلية التكفل بالمحكمة تساعدك على تكييف الوقائع قانونياً.',
+   'التعريف القانوني الشامل (المادة 1 من القانون 103.13): العنف ضد المرأة هو كل فعل مادي ولا معنوي ولا امتناع مبني على التمييز بسبب الجنس، وكينتج عليه ضرر جسدي ولا نفسي ولا جنسي ولا اقتصادي. خلية التكفل فالمحكمة كتعاونك تحددي التكييف القانوني.',
+   'Définition légale générale (art. 1, loi 103.13) : la violence à l’égard des femmes désigne tout acte matériel ou moral ou abstention fondé sur la discrimination en raison du sexe, entraînant un préjudice corporel, psychologique, sexuel ou économique. La cellule du tribunal vous aide à qualifier les faits.'
+  ]);
+ }
+ return out;
+}
+
+function getChecklist(ty, ag){
+ var list=[];
+ var has0=ty.indexOf(0)>-1, has1=ty.indexOf(1)>-1, has2=ty.indexOf(2)>-1, has3=ty.indexOf(3)>-1, has4=ty.indexOf(4)>-1;
+
+ if(has0){
+  list.push(['شهادة طبية أولية من مستشفى عمومي تثبت مدة العجز البدني أو الآثار (ضرورية لإثبات الاعتداء الجسدي أو الجنسي).','شهادة طبية أولية من سبيطار عمومي كتبين مدة العجز ولا الآثار (ضرورية لإثبات الاعتداء الجسدي ولا الجنسي).','Certificat médical initial délivré par un hôpital public précisant la durée d’incapacité ou les traces.']);
+  list.push(['صور واضحة للإصابات أو الملابس الممزقة مؤرخة إن وُجدت، مع أسماء الشهود وأرقام هواتفهم.','تصاور واضحين للإصابات ولا الحوايج المقطعة بالتاريخ إلا كانو، مع سميات الشهود ونوامر التيليفون ديالهم.','Photos datées des blessures ou vêtements déchirés le cas échéant, avec noms et téléphones des témoins.']);
+ }
+ if(has1){
+  list.push(['تسجيل تواريخ وأوقات وقائع التهديد أو السب أو الإكراه، وأسماء الشهود الذين عاينوا ذلك.','تقييد التواريخ والأوقات ديال التهديد ولا السب ولا الإكراه، وسميات الشهود اللي حضرو.','Relevé daté des faits de menace, d’injure ou de contrainte, avec les coordonnées des témoins.']);
+ }
+ if(has2){
+  if(ag===0){
+   list.push(['نسخة من عقد الزواج + بطاقة التعريف الوطنية + عقود ازدياد الأطفال (إن وُجدوا).','نسخة من عقد الزواج + لاكارط ناسيونال + عقود ازدياد الدراري (إلا كانو).','Copie de l’acte de mariage + CIN + actes de naissance des enfants (le cas échéant).']);
+   list.push(['محضر معاينة الطرد من بيت الزوجية (منجز من الشرطة/الدرك أو مفوض قضائي) أو نسخ من أحكام النفقة غير المنفذة.','محضر معاينة الطرد من بيت الزوجية (مديور عند البوليس/الجندرمة ولا مفوض قضائي) ولا نسخ من أحكام النفقة اللي ما تنفذاتش.','Procès-verbal de constat d’expulsion du domicile conjugal (police/gendarmerie ou commissaire de justice) ou copies des jugements de pension non exécutés.']);
+  }
+  list.push(['وثائق إثبات الذمة المالية أو الملكية: كشوف بنكية، عقود، فواتير أو تحويلات تثبت تبديد الأموال أو الحرمان المالي.','وثائق إثبات الفلوس ولا الملكية: كشوفات بنكية، عقود، فواتير ولا تحويلات كتبين تبديد الفلوس ولا الحرمان المالي.','Justificatifs financiers ou de propriété : relevés bancaires, contrats, factures ou virements prouvant la dissipation ou la privation financière.']);
+ }
+ if(has3){
+  list.push(['لقطات شاشة (Screenshots) واضحة للرسائل أو الصور أو المنشورات المسيئة تُظهر التاريخ، اسم الحساب/الرقم، والرابط (URL).','كابتور إيكرون (Screenshots) واضحين للميساجات ولا التصاور ولا المنشورات كيبان فيهم التاريخ، سمية الحساب/النمرة، والليان (URL).','Captures d’écran claires des messages, images ou publications montrant la date, l’identifiant/numéro et le lien (URL).']);
+  list.push(['الاحتفاظ بالهاتف أو الحاسوب والمحادثات الأصلية دون حذف الرسائل (لإجراء الخبرة التقنية عند الاقتضاء).','الاحتفاظ بالتيليفون ولا البيسي والمحادثات الأصلية بلا ما تمسحي الميساجات (باش تدار الخبرة التقنية إلا احتاجتها المحكمة).','Conservation du téléphone/ordinateur et des messages originaux sans suppression (en vue d’une expertise technique).']);
+ }
+ if(has4||!list.length){
+  list.push(['بطاقة التعريف الوطنية وأي وثيقة أو رسالة أو شهادة مرتبطة بالواقعة لعرضها على المساعد الاجتماعي أو نائب وكيل الملك بخلية التكفل.','لاكارط ناسيونال وأي وثيقة ولا ميساج ولا شهادة عندها علاقة بالواقعة باش تعرضيها على المساعد الاجتماعي ولا نائب وكيل الملك فخلية التكفل.','Carte nationale d’identité et tout document, message ou témoignage lié aux faits à présenter à la cellule de prise en charge.']);
+ }
+ return list;
+}
+
+var B4=[
+['تدابير حماية فورية (المادة 82-5-2 من المسطرة الجنائية): يمكن لوكيل الملك أو قاضي التحقيق أو المحكمة الأمر فوراً بـ: إرجاع الطفل المحضون إلى مسكنه المحدد، إنذار المعتدي بعدم الاعتداء، منع التصرف في الأموال المشتركة، الإحالة على مستشفى للعلاج، أو الإيواء في مؤسسة اجتماعية برغبتك.','تدابير حماية فورية (المادة 82-5-2): وكيل الملك ولا قاضي التحقيق ولا المحكمة يقدرو يأمرو دابا بـ: رجوع الطفل المحضون لمسكنو المحدد، إنذار المعتدي باش ما يعاودش يعتدي، منع التصرف فالفلوس المشتركة، العلاج فسبيطار، ولا الإيواء فمؤسسة اجتماعية إلا بغيتي.','Mesures de protection immédiates (art. 82-5-2 CPP) : retour de l’enfant gardé à son logement, avertissement de l’auteur des menaces, interdiction de disposer des biens communs, soins hospitaliers ou accueil en établissement social si vous le souhaitez.'],
+['منع الاتصال بك أو الاقتراب منك (الفصلان 88-1 و88-3): يمكن الأمر بمنع المعتدي من الاتصال بك أو الاقتراب من مكان وجودك أثناء المتابعة، وبعد الحكم لمدة تصل إلى 5 سنوات. خرق هذا المنع جريمة مستقلة عقوبتها من 6 أشهر إلى سنتين حبساً (الفصل 323-1).','منع التواصل معك ولا القرب منك (الفصلان 88-1 و88-3): يقدرو يمنعو المعتدي يتصل بك ولا يقرب لبلاصتك أثناء المتابعة، ومن بعد الحكم حتى لـ 5 سنين. خرق هاد المنع جريمة عقوبتها من 6 أشهر لعامين حبس (الفصل 323-1).','Interdiction de contact ou d’approche (art. 88-1 et 88-3) : pendant les poursuites et jusqu’à 5 ans après condamnation. Violer cette interdiction est un délit puni de 6 mois à 2 ans de prison (art. 323-1).'],
+['السرية والجلسة المغلقة (المادة 302 والمادة 7): تُعقد الجلسة سرية ومغلقة بطلب منك حمايةً لخصوصيتك. ولا يمكن لأي جمعية أن تنتصب طرفاً مدنياً إلا بإذن كتابي صريح منك.','السرية والجلسة المغلقة (المادة 302 والمادة 7): الجلسة كتدار سرية ومغلقة بطلب منك حماية لخصوصيتك. وما تقدر حتى جمعية تدخل طرف مدني إلا بإذن كتابي صريح منك.','Audience à huis clos et confidentialité (art. 302 et art. 7) : audience à huis clos à votre demande. Aucune association ne peut se constituer partie civile sans votre autorisation écrite expresse.']
+];
+var B4A=['تنبيه خاص بالعلاقة الزوجية: في بعض الجرائم بين الزوجين (مثل طرد الزوجة من بيت الزوجية 480-1 أو تبديد الأموال 526-1)، تنازل الزوج المتضرر عن الشكاية يضع حداً للمتابعة الجنائية.','تنبيه خاص بالعلاقة الزوجية: فبعض الجرائم بين الزوجين (بحال طرد الزوجة من بيت الزوجية 480-1 ولا تبديد الفلوس 526-1)، تنازل الزوج المتضرر على الشكاية كيوقف المتابعة الجنائية.','Point spécifique aux conjoints : pour certains délits entre époux (expulsion du domicile 480-1, dissipation de biens 526-1), le retrait de la plainte par le conjoint lésé met fin aux poursuites.'];
+var SRC=[
+['القانون رقم 103.13 المتعلق بمحاربة العنف ضد النساء (ظهير شريف رقم 1.18.19 صادر في 22 فبراير 2018، الجريدة الرسمية عدد 6688 بتاريخ 5 يوليوز 2018).','القانون رقم 103.13 المتعلق بمحاربة العنف ضد النساء (ظهير 1.18.19 بتاريخ 22 فبراير 2018، الجريدة الرسمية عدد 6688 بتاريخ 5 يوليوز 2018).','Loi n° 103.13 relative à la lutte contre les violences faites aux femmes (Dahir n° 1.18.19 du 22 février 2018, BO n° 6688 du 5 juillet 2018).'],
+['مقتضيات مجموعة القانون الجنائي وقانون المسطرة الجنائية المعدّلة والمتمّمة بموجب القانون 103.13.','مقتضيات القانون الجنائي وقانون المسطرة الجنائية المعدّلة بموجب القانون 103.13.','Dispositions du Code pénal et du Code de procédure pénale modifiées et complétées par la loi 103.13.']
+];
+
+var S={l:0,s:'lang',w:0,ty:[],ag:0,h:[]};
+var M=document.getElementById('m');
+function t(a){return a[S.l]||a[0]}
+function dir(){document.documentElement.lang=['ar','ar','fr'][S.l];document.documentElement.dir=S.l==2?'ltr':'rtl'}
+function out(){document.body.innerHTML='';location.replace('https://www.google.com/search?q=weather')}
+function go(s){S.h.push(S.s);S.s=s;R();window.scrollTo(0,0)}
+function opt(x,v,txt,on){return '<button class="o'+(on?' on':'')+'" data-x="'+x+'" data-v="'+v+'">'+(on?'✓ ':'')+txt+'</button>'}
+function bk(){return S.h.length?'<button class="bk" data-x="bk">'+t(U.bk)+'</button>':''}
+
+function getSelectedTypes(){
+ var ts=S.ty.slice().sort();
+ return ts.length?ts:[4];
+}
+
+function buildSummaryText(){
+ var ts=getSelectedTypes();
+ var lawCards=getLawCards(ts,S.ag);
+ var checklist=getChecklist(ts,S.ag);
+ var lines=[
+  t(U.br)+' — '+t(U.rs),
+  '['+ts.map(function(i){return t(U.ty[i])}).join(' + ')+' | '+t(U.ag[S.ag])+']',
+  '---',
+  t(U.b1)+':',
+  ...ts.map(function(i){return '- '+t(B1_BY_TYPE[i])}),
+  t(U.b2)+':',
+  ...ts.map(function(i){return '- '+t(WHERE_BY_TYPE[i])}),
+  t(U.lw)+':',
+  ...lawCards.map(function(c){return '- '+t(c)}),
+  t(U.b3)+':',
+  ...checklist.map(function(c){return '- '+t(c)}),
+  t(U.b4)+':',
+  ...B4.map(function(a){return '- '+t(a)}),
+  ...(S.ag===0?['- '+t(B4A)]:[])
+ ];
+ return lines.join('\n');
+}
+
+function R(){
+ document.getElementById('br').textContent=t(U.br);
+ var ex=document.getElementById('ex');ex.textContent=t(U.ex);
+ var h='',i;
+ if(S.s=='lang'){
+  h='<h1>'+U.lg.join(' · ')+'</h1>'+opt('lang',0,'العربية')+opt('lang',1,'الدارجة')+opt('lang',2,'Français')+'<p class="m">'+U.pv.join('<br>')+'</p>';
+ }else if(S.s=='d'){
+  h='<h1>'+t(U.q0)+'</h1>'+opt('go','em',t(U.y))+opt('go','who',t(U.n))+'<p class="m">'+t(U.pv)+'</p>';
+ }else if(S.s=='em'){
+  h='<h1>'+t(U.em)+'</h1><p>'+t(U.emt)+'</p><a class="p dg" href="tel:19">'+t(U.p1)+'</a><a class="p dg" href="tel:177">'+t(U.p2)+'</a><button class="p" data-x="go" data-v="who" style="margin-top:28px">'+t(U.go)+'</button>'+bk();
+ }else if(S.s=='who'){
+  h='<h1>'+t(U.q1)+'</h1>'+opt('w',0,t(U.w[0]))+opt('w',1,t(U.w[1]))+bk();
+ }else if(S.s=='ty'){
+  h='<h1>'+t(U.q2)+'</h1>';
+  for(i=0;i<5;i++)h+=opt('ty',i,t(U.ty[i]),S.ty.indexOf(i)>-1);
+  h+='<button class="p" data-x="tyn"'+(S.ty.length?'':' disabled')+'>'+t(U.nx)+'</button>'+bk();
+ }else if(S.s=='ag'){
+  h='<h1>'+t(U.q3)+'</h1>';
+  for(i=0;i<4;i++)h+=opt('ag',i,t(U.ag[i]));
+  h+=bk();
+ }else{
+  var ts=getSelectedTypes();
+  var lawCards=getLawCards(ts,S.ag);
+  var checklist=getChecklist(ts,S.ag);
+
+  h='<h1>'+t(U.rs)+'</h1>';
+  h+='<div>';
+  ts.forEach(function(idx){h+='<span class="badge">'+t(U.ty[idx])+'</span>'});
+  h+='<span class="badge">'+t(U.ag[S.ag])+'</span></div>';
+  if(S.w)h+='<p class="m">'+t(U.oth)+'</p>';
+
+  h+='<h2>'+t(U.b1)+'</h2><div class="c"><ul>';
+  ts.forEach(function(idx){h+='<li>'+t(B1_BY_TYPE[idx])+'</li>'});
+  h+='</ul><p><a href="tel:19">19</a> · <a href="tel:177">177</a></p></div>';
+
+  h+='<h2>'+t(U.b2)+'</h2><div class="c"><ul>';
+  ts.forEach(function(idx){h+='<li>'+t(WHERE_BY_TYPE[idx])+'</li>'});
+  h+='</ul></div>';
+
+  h+='<h2>'+t(U.sf)+'</h2><div class="c"><p>'+t(U.sft)+'</p></div>';
+
+  h+='<h2>'+t(U.lw)+'</h2>';
+  lawCards.forEach(function(c){h+='<div class="c"><p>'+t(c)+'</p></div>'});
+
+  h+='<h2>'+t(U.b3)+'</h2><div class="c"><ul>';
+  checklist.forEach(function(c){h+='<li>'+t(c)+'</li>'});
+  h+='</ul></div>';
+
+  h+='<h2>'+t(U.b4)+'</h2><div class="c"><ul>';
+  B4.forEach(function(a){h+='<li>'+t(a)+'</li>'});
+  if(S.ag===0)h+='<li>'+t(B4A)+'</li>';
+  h+='</ul></div>';
+
+  h+='<button class="p" data-x="copy">'+t(U.cp)+'</button>';
+  h+='<button class="p sec" data-x="print">'+t(U.pr)+'</button>';
+  h+='<div class="toast" id="toast"></div>';
+
+  h+='<h2>'+t(U.sr)+'</h2><div class="c"><ul>';
+  SRC.forEach(function(a){h+='<li>'+t(a)+'</li>'});
+  h+='<li><a href="https://adala.justice.gov.ma" target="_blank" rel="noopener">adala.justice.gov.ma</a> · <a href="https://www.social.gov.ma" target="_blank" rel="noopener">www.social.gov.ma</a></li></ul></div><p class="m">'+t(U.ds)+'</p>'+bk();
+ }
+ M.innerHTML=h;
+ M.insertAdjacentHTML('afterbegin','<div class="lg" style="margin-bottom:6px"><button data-x="lang" data-v="0"'+(S.l==0?' class="on"':'')+'>ع</button> <button data-x="lang" data-v="1"'+(S.l==1?' class="on"':'')+'>دارجة</button> <button data-x="lang" data-v="2"'+(S.l==2?' class="on"':'')+'>FR</button></div>');
+}
+document.addEventListener('click',function(e){
+ if(e.target.id=='ex'){out();return}
+ var b=e.target.closest('[data-x]');if(!b)return;
+ var x=b.dataset.x,v=b.dataset.v;
+ if(x=='lang'){S.l=+v;dir();if(S.s=='lang'){S.s='d'}R()}
+ else if(x=='go')go(v);
+ else if(x=='w'){S.w=+v;go('ty')}
+ else if(x=='ty'){v=+v;var k=S.ty.indexOf(v);if(k>-1)S.ty.splice(k,1);else S.ty.push(v);R()}
+ else if(x=='tyn'){if(S.ty.length)go('ag')}
+ else if(x=='ag'){S.ag=+v;go('res')}
+ else if(x=='copy'){
+  var txt=buildSummaryText();
+  var toast=document.getElementById('toast');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+   navigator.clipboard.writeText(txt).then(function(){if(toast)toast.textContent=t(U.cpd)}).catch(function(){if(toast)toast.textContent=t(U.cpd)});
+  }else if(toast){toast.textContent=t(U.cpd)}
+ }
+ else if(x=='print'){window.print()}
+ else if(x=='bk'){S.s=S.h.pop()||'d';R();window.scrollTo(0,0)}
+});
+var esc=0;
+document.addEventListener('keydown',function(e){if(e.key=='Escape'){esc++;if(esc>1)out();setTimeout(function(){esc=0},800)}});
+dir();R();
+</script></body></html>
